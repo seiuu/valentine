@@ -1,15 +1,14 @@
 <template>
   <div class="main-view-container">
-    <div class="text-wrapper">
-      <h1 v-safe-html="formatText(mainMessage)"></h1>
-      <h4 v-safe-html="formatText(description)"></h4>
-    </div>
-    <div class="button-wrapper">
-      <button v-on:click="$emit('viewClosed')">
-        <span>LETS GOO!</span>
-        <div class="liquid"></div>
-      </button>
-    </div>
+    <div class="text-wrapper" v-safe-html="formatText()"></div>
+    <!-- <div class="text-wrapper">
+      <span class="big"
+        >Enjoy your week! <br /><span class="small bold">
+          Kisses from me mwah!</span
+        ></span
+      >
+      <span class="small">I love you a lot rly, kith for u 💞</span>
+    </div> -->
   </div>
 </template>
 
@@ -23,6 +22,13 @@ Vue.use(VueSafeHTML, {
 
 export default {
   name: "MainView",
+  data() {
+    return {
+      title: "",
+      desc: "",
+      fullMessage: "",
+    };
+  },
   props: {
     mainMessage: {
       type: String,
@@ -36,42 +42,83 @@ export default {
     },
   },
   methods: {
-    formatText(value) {
-      if (!value) return "";
+    formatText() {
+      let message = "";
 
-      let newString = value;
+      message = this.mainMessage + " " + this.description;
 
-      const startingSymbol = "{";
-      const endingSymbol = "}";
-      const lineBreakSymbol = "|";
-      const lineBreakTag = "<br>";
-      const startingTag = "<span>";
-      const endingTag = "</span>";
+      let mapObj = {
+        love: `<span class="bold">love</span>`,
+        you: `<span class="bold">You</span>`,
+        monday: `<span class="bold">monday</span>`,
+        tuesday: `<span class="bold">tuesday</span>`,
+        wednesday: `<span class="bold">wednesday</span>`,
+        thursday: `<span class="bold">thursday</span>`,
+        friday: `<span class="bold">friday</span>`,
+        saturday: `<span class="bold">saturday</span>`,
+        sunday: `<span class="bold">sunday</span>`,
+        snacc: `<span class="bold big">snacc</span>`,
+        baby: `<span class="bold big">Baby</span>`,
+        boo: `<span class="bold big">Boo</span>`,
+        wonderful: `<span class="bold">wonderful</span>`,
+      };
 
-      if (value.includes(startingSymbol) && value.includes(endingSymbol)) {
-        newString = value
-          .replace(startingSymbol, startingTag)
-          .replace(endingSymbol, endingTag)
-          .replace(lineBreakSymbol, lineBreakTag);
-      }
-      return newString;
+      var re = new RegExp(Object.keys(mapObj).join("|"), "gi");
+      message = message.replace(re, function (matched) {
+        let result = mapObj[matched.toLowerCase()];
+        return matched[0] === matched[0].toLowerCase()
+          ? result
+          : result[0].toUpperCase() + result.slice(1);
+      });
+
+      return message;
     },
   },
 };
 </script>
 
 <style lang="scss">
-.main-view-container {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  padding-bottom: 3rem;
-  padding-left: 19vw;
-  padding-right: 12vw;
+.text-wrapper {
+  position: relative;
+  z-index: 10;
+
+  & > span {
+    display: block;
+    transform: rotate(-3deg);
+  }
+
+  & > span:last-of-type {
+    margin-left: 5rem;
+  }
+
+  span {
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+  }
+
+  span {
+    &.bold {
+      color: #dd5656;
+      font-weight: bold;
+    }
+
+    &.small {
+      font-size: 4rem;
+    }
+
+    &.medium {
+      font-size: 7rem;
+    }
+
+    &.big {
+      font-size: 9rem;
+    }
+  }
 }
 
 .button-wrapper {
   margin-top: auto;
+  margin-bottom: 5rem;
 
   button {
     cursor: pointer;
@@ -160,21 +207,6 @@ export default {
 h1,
 h4 {
   margin: 0;
-}
-
-h1 {
-  font-size: 9.188rem;
-  transform: rotate(-3deg);
-  line-height: 121%;
-  margin-bottom: 4.5rem;
-}
-
-h4 {
-  font-size: 3.75rem;
-  transform: rotate(-3deg);
-  letter-spacing: 0.01em;
-  padding-left: 6.563rem;
-  padding-right: 6.563rem;
 }
 
 button {
