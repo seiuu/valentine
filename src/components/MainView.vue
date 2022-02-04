@@ -49,7 +49,10 @@ export default {
 
       let mapObj = {
         love: `<span class="bold">love</span>`,
-        you: `<span class="bold">You</span>`,
+        You: `<span class="bold">You</span>`,
+        you: `<span class="bold">you</span>`,
+        your: `<span class="bold">your</span>`,
+        Your: `<span class="bold">Your</span>`,
         monday: `<span class="bold">monday</span>`,
         tuesday: `<span class="bold">tuesday</span>`,
         wednesday: `<span class="bold">wednesday</span>`,
@@ -61,6 +64,9 @@ export default {
         baby: `<span class="bold big">Baby</span>`,
         boo: `<span class="bold big">Boo</span>`,
         wonderful: `<span class="bold">wonderful</span>`,
+        hot: `<span class="bold">hot</span>`,
+        charming: `<span class="bold">charming</span>`,
+        fantastic: `<span class="bold">fantastic</span>`,
       };
 
       var re = new RegExp(Object.keys(mapObj).join("|"), "gi");

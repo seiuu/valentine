@@ -138,15 +138,17 @@ export default {
         `<span class="small">u got a pretty face rly..</span>`,
       ];
 
-      title = titles[2][3];
-      description = descriptions[3];
-
       if (day == "birthday") {
         title = `<span class="big">Happy Birthday <br> baby Boo!!</span>`;
         description = `<span class="small">I love You so so much, i hope you have a wonderful day!</span>`;
       } else if (day == "valentine") {
         title = `<span class="big">Happy Valentine's Day!</span>`;
         description = `<span class="small">I love You so so much, come back here everyday <br> for something new!</span>`;
+      } else {
+        day = day - 1;
+
+        title = titles[day][this.getIndex(titles[day].length)];
+        description = descriptions[[this.getIndex(descriptions.length)]];
       }
 
       this.mainView = {
@@ -154,7 +156,6 @@ export default {
         description,
       };
     },
-    getOpenViewInfo() {},
     getDay() {
       let currDay = new Date();
       let birthday = new Date("06/08/2022");
@@ -165,7 +166,7 @@ export default {
       } else if (this.isToday(valentine)) {
         return "valentine";
       } else {
-        return currDay;
+        return currDay.getDay();
       }
     },
     isToday(dateParameter) {
